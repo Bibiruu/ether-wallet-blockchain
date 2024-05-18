@@ -1,0 +1,26 @@
+{
+  "name": "ether-wallet-blockchain",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bibiruu/ether-wallet-blockchain.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bibiruu/ether-wallet-blockchain/issues"
+  },
+  "homepage": "https://github.com/Bibiruu/ether-wallet-blockchain#readme",
+  "devDependencies": {
+    "truffle": "^5.7.3",
+    "webpack": "^5.0.0",
+    "webpack-cli": "^5.1.4",
+    "webpack-dev-server": "^5.0.4"
+  }
+}
