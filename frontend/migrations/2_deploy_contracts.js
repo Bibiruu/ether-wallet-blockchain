@@ -1,5 +1,5 @@
 const EtherWallet = artifacts.require("EtherWallet");
 
-module.exports = function(deployer, _network, accounts) {
+module.exports = function(deployer, accounts) {
   deployer.deploy(EtherWallet, accounts[0]);
 };
