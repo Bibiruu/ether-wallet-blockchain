@@ -19,7 +19,7 @@ contract('EtherWallet', (accounts) => {
         const balance = await web3.eth.getBalance(etherWallet.address);
         assert(parseInt(balance) === 100);
     });
-    it('it should return the balace of the contract', async () => {
+    it('it should return the balance of the contract', async () => {
         const balanceRecipientBefore = await web3.eth.getBalance(accounts[1]);
         const balance = await etherWallet.balanceOf();
         assert(parseInt(balance) === 100);
