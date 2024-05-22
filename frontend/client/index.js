@@ -4,11 +4,11 @@ import EtherWallet from '../contracts/EtherWallet.json'
 let web3;
 let etherWallet;
 
+//authorizing metamask
 const initWeb3 = () => {
   return new Promise((resolve, reject) => {
     if (typeof window.ethereum !== 'undefined') {
       const web3 = new Web3(window.ethereum);
-      //authorizing metamask
       window.ethereum.enable()
         .then(() => {
           resolve(
@@ -53,35 +53,51 @@ const initApp = () => {
       accounts = _accounts;
     });
 
+  const refreshBalance = () => {
+    etherWallet.methods
+      .balanceOf()
+      .call()
+      .then(result => {
+        $balance.innerHTML = result;
+      })
+      .catch(_e => {
+        $balance.innerHTML = `Oops, theres something wrong in refreshing the balance`;
+      });
+  };
+  refreshBalance();
+
   $deposit.addEventListener('submit', error => {
     error.preventDefault();
     const amount = e.target.elements[0].value;
     etherWallet.methods
       .deposit()
-      .send({from: accounts[0], value: amount})
-      .then( result => {
+      .send({ from: accounts[0], value: amount })
+      .then(result => {
         $depositResult.innerHTML = `Depositing wei amount of ${amount} was successfull`
       })
-      .catch( _e => {
+      .catch(_e => {
         $depositResult.innerHTML = `Oops, theres was an problem while 
         trying to make the deposit.`;
       });
   });
+
+  $send.addEventListener('submit', error => {
+    error.preventDefault();
+    const amount = e.target.elements[0].value;
+    const to = e.target.elements[1].value;
+    etherWallet.methods
+      .call({ to, amount })
+      .send({ from: accounts[0] })
+      .then(() => {
+        $sendResult.innerHTML = `Successfully sent wei of the amount of ${amount}, ${to}`;
+      })
+      .catch(_e => {
+        $sendResult.innerHTML = `Oops, there something wrong in sending wei from the contract.`;
+      });
+  });
+
 };
 
-$send.addEventListener('submit', error => {
-  error.preventDefault();
-  const amount = e.target.elements[0].value;
-  etherWallet.methods
-    .call({ from: accounts[1] })
-    .send({ from: accounts[0], value: amount})
-    .then(() => {
-      
-    })
-    .catch( _e => {
-
-    });
-});
 
 document.addEventListener('DOMContentLoaded', () => {
   initWeb3()
