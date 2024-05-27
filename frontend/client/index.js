@@ -1,5 +1,5 @@
 import Web3 from 'web3';
-import EtherWallet from '../contracts/EtherWallet.json'
+import EtherWallet from '../../build/contracts/EtherWallet.json'
 
 let web3;
 let etherWallet;
@@ -29,12 +29,12 @@ const initWeb3 = () => {
   });
 };
 
-const initContract = () => {
-  const deploymentKey = Object.keys(CrudSmartContract.networks)[0];
+const initContract = async () => {
+  const networkId = await web3.eth.net.getId();
   return new web3.eth.Contract(
     EtherWallet.abi,
     EtherWallet
-      .networks[deploymentKey]
+      .networks[networkId]
       .address
   );
 };
@@ -86,10 +86,11 @@ const initApp = () => {
     const amount = e.target.elements[0].value;
     const to = e.target.elements[1].value;
     etherWallet.methods
-      .call({ to, amount })
+      .send({ to, amount })
       .send({ from: accounts[0] })
-      .then(() => {
+      .then(result => {
         $sendResult.innerHTML = `Successfully sent wei of the amount of ${amount}, ${to}`;
+        refreshBalance();
       })
       .catch(_e => {
         $sendResult.innerHTML = `Oops, there something wrong in sending wei from the contract.`;
@@ -104,7 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
     .then(_web3 => {
       web3 = _web3;
       return initContract();
-    }).then(_etherWallet => {
+    })
+    .then(_etherWallet => {
       etherWallet = _etherWallet;
       initApp();
     })
