@@ -18,7 +18,7 @@ module.exports = {
         const options = {
           mnemonic: process.env.MNEMONIC,
           providerOrUrl: `https://sepolia.infura.io/v3/${process.env.INFURA_ENDPOINT}`,
-          pollingInterval: 8000, // Adjust polling interval to reduce request frequency
+          pollingInterval: 10000, // Adjust polling interval to reduce request frequency
           numberOfRetries: 5,
           retryDelay: exponentialBackoff
         };
